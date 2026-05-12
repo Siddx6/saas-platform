@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getWorkspace } from '../../api/workspace.api'
 import { createOrder, verifyPayment } from '../../api/billing.api'
 import Card from '../../components/ui/Card'
@@ -26,6 +26,7 @@ const features = {
 export default function Billing() {
   const { workspace, setWorkspace } = useWorkspaceStore()
   const [loading, setLoading] = useState(false)
+  const queryClient = useQueryClient()
 
   const { data: workspaceData } = useQuery({
     queryKey: ['workspace'],
@@ -55,6 +56,8 @@ export default function Billing() {
           })
           if (verifyRes.data.success) {
             setWorkspace({ ...workspace, plan: 'pro' })
+            queryClient.invalidateQueries(['workspace'])
+            window.location.reload()
           }
         },
         theme: { color: '#6366f1' },
@@ -143,9 +146,6 @@ export default function Billing() {
         </Card>
 
       </div>
-
-      {/* Razorpay script */}
-      <script src='https://checkout.razorpay.com/v1/checkout.js' />
 
     </div>
   )
