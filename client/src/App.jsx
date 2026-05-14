@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import ProtectedRoute from './components/layout/ProtectedRoute'
+import Landing from './pages/Landing'
 import GoogleCallback from './pages/auth/GoogleCallback'
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup'
@@ -21,6 +22,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Landing page */}
+        <Route path='/' element={<Landing />} />
+
         {/* Public routes */}
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
@@ -30,10 +34,10 @@ export default function App() {
         <Route path='/onboarding' element={<Onboarding />} />
         <Route path='/invite/:token' element={<AcceptInvite />} />
         <Route path='/auth/callback' element={<GoogleCallback />} />
+
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path='/' element={<Navigate to='/dashboard' />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/reports' element={<Reports />} />
             <Route path='/reports/:id' element={<ReportDetail />} />
@@ -44,7 +48,7 @@ export default function App() {
           </Route>
         </Route>
 
-        <Route path='*' element={<Navigate to='/login' />} />
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </BrowserRouter>
   )
