@@ -72,7 +72,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const handleLogout = () => {
     logout()
     clearWorkspace()
-    navigate('/login')
+    navigate('/')
   }
 
   const activeClass = 'bg-indigo-50 text-indigo-600 font-medium'
